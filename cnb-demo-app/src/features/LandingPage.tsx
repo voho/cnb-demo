@@ -10,7 +10,7 @@ export const LandingPage: React.FC = (props) => {
           <FxConvertor />
         </div>
       </div>
-      <div className="bg-white">
+      <div className="bg-white py-5">
         <div className="p-5 w-[80%] min-w-[800px] max-w-[1200px] mx-auto">
           <FxTable />
         </div>

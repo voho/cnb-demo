@@ -1,14 +1,14 @@
 import React, { useContext } from "react"
 import { Button } from "../components/Button"
 import { FxContext } from "../context/FxContext"
+import { Loader } from "../components/Loader"
 
 export const FxTable: React.FC = () => {
-  const {currentSheet, loading, error} = useContext(FxContext)
-
+  const {currentSheet, loading, error, setSourceCurrency, setTargetCurrency} = useContext(FxContext)
   const rows = currentSheet?.rows ?? []
 
   return (
-    <div>
+    <Loader loading={loading} error={error}>
       <div className="flex flex-row justify-between items-center">
         <h2 className="text-2xl font-bold py-6">Current Exchange Rates</h2>
         <h3 className="text-md py-3">Date: {currentSheet?.date ?? 'N/A'}</h3>
@@ -31,14 +31,14 @@ export const FxTable: React.FC = () => {
               <td className="border border-gray-200 text-left px-2 py-1">{row.amount} {row.currency}</td>
               <td className="border border-gray-200 text-right font-mono px-2 py-1">{row.rate}</td>
               <td className="border border-gray-200 text-left px-2 py-1">
-                <Button onClick={() => {}} label="Convert From" />
-                <Button onClick={() => {}} label="Convert To" />
+                <Button onClick={() => setSourceCurrency(row.code)} label="Convert From" />
+                <Button onClick={() => setTargetCurrency(row.code)} label="Convert To" />
               </td>
             </tr>
             )
           })}         
         </tbody>
       </table>
-    </div>
+    </Loader>
   )
 }

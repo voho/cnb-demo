@@ -1,18 +1,26 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import { FxContext } from "../context/FxContext"
 
 const Form: React.FC = () => {
-  const {} = useContext(FxContext)
+  const {loading, setSourceAmount, sourceCurrency, setSourceCurrency, targetCurrency, setTargetCurrency, targetAmount, currencyCodes} = useContext(FxContext)
   
   return (
     <form>
       <div className="flex flex-row gap-4 items-center place-content-around">
         <div>
           <label>Enter Amount<br />
-            <input type="text" name="amount" className="my-3 p-3 font-bold" />
+            <input type="text" name="amount" className="my-3 p-3 font-bold" disabled={loading} onChange={(e) => {
+              setSourceAmount(e.currentTarget.value)
+            }} />
           </label>
-          <select name="source_currency" className="ml-3 my-3 p-3 font-bold">
-            <option>USD</option>
+          <select name="source_currency" className="ml-3 my-3 font-bold text-xl" disabled={loading} value={sourceCurrency} onChange={(e) => {
+            setSourceCurrency(e.currentTarget.value)
+          }}>
+            {currencyCodes.map((currency) => {
+              return (
+                <option value={currency}>{currency}</option>
+              )
+            })}
           </select>
         </div>
         <div>
@@ -20,11 +28,17 @@ const Form: React.FC = () => {
           <span className="text-4xl">&rarr;</span>
         </div>
         <div>
-        <label>Conversion Result<br />
-            <input type="text" name="amount" readOnly={true}  className="my-3 p-3 font-bold" />
+          <label>Conversion Result<br />
+            <input type="text" name="amount" readOnly={true} value={targetAmount} className="my-3 p-3 font-bold" disabled={loading} />
             </label>
-          <select name="target_currency" className="ml-3 my-3 p-3 font-bold">
-            <option>USD</option>
+          <select name="target_currency" className="ml-3 my-3 font-bold text-xl" disabled={loading} value={targetCurrency} onChange={(e) => {
+            setTargetCurrency(e.currentTarget.value)
+          }}>
+            {currencyCodes.map((currency) => {
+              return (
+                <option value={currency}>{currency}</option>
+              )
+            })}
           </select>
         </div>
       </div>      
