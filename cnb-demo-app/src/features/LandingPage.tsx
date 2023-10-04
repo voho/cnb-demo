@@ -1,13 +1,16 @@
 import React from "react"
+import { FxConvertor } from "./FxConvertor"
+import { FxTable } from "./FxTable"
 
-interface Props {
-  
-}
-
-export const LandingPage: React.FC<Props> = (props) => {
+export const LandingPage: React.FC = (props) => {
   return (
     <div>
-      page
+      <div className="bg-sky-300 py-3 px-5">
+        <FxConvertor />
+      </div>
+      <div className="bg-white py-3 px-5">
+        <FxTable />
+      </div>
     </div>
   )
 }
