@@ -6,33 +6,26 @@ const Form: React.FC = () => {
   
   return (
     <form>
-      <div className="flex flex-row gap-4 items-center place-content-evenly">
+      <div className="flex flex-row gap-4 items-center place-content-around">
         <div>
-          <label>Source Amount<br />
+          <label>Enter Amount<br />
             <input type="text" name="amount" className="my-3 p-3 font-bold" />
           </label>
-        </div>
-        <div>
-          <label>Source currency<br />
-          <select name="source_currency">
+          <select name="source_currency" className="ml-3 my-3 p-3 font-bold">
             <option>USD</option>
           </select>
-          </label>
         </div>
         <div>
+          Magic<br />
           <span className="text-4xl">&rarr;</span>
         </div>
         <div>
-          <label>Target Amount<br />
+        <label>Conversion Result<br />
             <input type="text" name="amount" readOnly={true}  className="my-3 p-3 font-bold" />
-          </label>
-        </div>
-        <div>
-          <label>Target currency<br />
-          <select name="target_currency">
+            </label>
+          <select name="target_currency" className="ml-3 my-3 p-3 font-bold">
             <option>USD</option>
           </select>
-          </label>
         </div>
       </div>      
     </form>
@@ -42,9 +35,9 @@ const Form: React.FC = () => {
 export const FxConvertor: React.FC = () => {
   return (
     <div>
-      <h1 className="text-4xl font-bold py-8">Use our amazing AI-powered tool to convert currencies, free of charge!</h1>
+      <h1 className="text-2xl font-bold py-5">Use our amazing AI-powered tool to convert currencies, free of charge!</h1>
       
-      <div className="p-3 bg-sky-200 my-5 rounded-lg">
+      <div className="p-3 bg-sky-200 my-5 rounded-lg shadow-md">
        <Form />
       </div>
 
