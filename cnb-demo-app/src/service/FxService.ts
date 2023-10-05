@@ -2,7 +2,9 @@ import { CnbFxRateRow, CnbFxRateSheet } from '../model/types'
 import superagent from 'superagent'
 
 const CNB_API_URL =
-  '/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt'
+  'https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt'
+
+const CNB_API_PROXIED_URL = 'https://corsproxy.io/?' + encodeURIComponent(CNB_API_URL);
 
 const parseCsvResponse = (responseText: string): CnbFxRateSheet => {
   const records = responseText.split('\n')
@@ -32,8 +34,7 @@ const parseCsvResponse = (responseText: string): CnbFxRateSheet => {
 export const fetchCnbFxRateSheet = (): Promise<CnbFxRateSheet> => {
   return new Promise((resolve, reject) => {
     superagent
-      .get(CNB_API_URL)
-      .set('Access-Control-Allow-Origin', '*')
+      .get(CNB_API_PROXIED_URL)
       .retry(1)
       .then((res) => {
         resolve(parseCsvResponse(res.text))
