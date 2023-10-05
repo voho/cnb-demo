@@ -1,15 +1,15 @@
 import React from 'react'
 import { LandingPage } from './features/LandingPage'
-import { FxContextProvider } from './context/FxContext';
+import { FxContextProvider } from './context/FxContext'
 
 function App() {
   return (
     <div className="App">
       <FxContextProvider>
-      <LandingPage />
+        <LandingPage />
       </FxContextProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,6 +1,6 @@
-import React from "react"
-import { FxConvertor } from "./FxConvertor"
-import { FxTable } from "./FxTable"
+import React from 'react'
+import { FxConvertor } from './FxConvertor'
+import { FxTable } from './FxTable'
 
 export const LandingPage: React.FC = (props) => {
   return (

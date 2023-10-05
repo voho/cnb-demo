@@ -1,32 +1,32 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from "react";
-import React from "react";
-import { CnbFxRateSheet } from "../model/types";
-import { fetchCnbFxRateSheet } from "../service/FxService";
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import React from 'react'
+import { CnbFxRateSheet } from '../model/types'
+import { fetchCnbFxRateSheet } from '../service/FxService'
 
 interface Props {
   children?: React.ReactNode
-};
+}
 
 export const FxContextProvider: React.FC<Props> = (props) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(undefined)
   const [currentSheet, setCurrentSheet] = useState<CnbFxRateSheet | undefined>()
-  const [sourceAmount, setSourceAmount] = useState("")
-  const [targetAmount, setTargetAmount] = useState("")
-  const [sourceCurrency, setSourceCurrency] = useState("")
-  const [targetCurrency, setTargetCurrency] = useState("")
+  const [sourceAmount, setSourceAmount] = useState('')
+  const [targetAmount, setTargetAmount] = useState('')
+  const [sourceCurrency, setSourceCurrency] = useState('')
+  const [targetCurrency, setTargetCurrency] = useState('')
 
   useEffect(() => {
     // fetch the CNB rates and store them internally
-    
+
     setError(undefined)
-    setLoading(true)    
+    setLoading(true)
 
     fetchCnbFxRateSheet()
-      .then(value => {
+      .then((value) => {
         setCurrentSheet(value)
       })
-      .catch(error => {
+      .catch((error) => {
         setError(error)
       })
       .finally(() => {
@@ -45,27 +45,23 @@ export const FxContextProvider: React.FC<Props> = (props) => {
   }, [sourceAmount, sourceCurrency, targetCurrency, currentSheet])
 
   const currencyCodes = useMemo(() => {
-    return currentSheet?.rows.map(row => row.code) ?? []
+    return currentSheet?.rows.map((row) => row.code) ?? []
   }, [currentSheet])
 
   const value = {
-      currentSheet,
-      loading,
-      error,
-      sourceCurrency,
-      setSourceAmount,
-      setSourceCurrency,
-      targetCurrency,
-      setTargetCurrency,
-      targetAmount,
-      currencyCodes
+    currentSheet,
+    loading,
+    error,
+    sourceCurrency,
+    setSourceAmount,
+    setSourceCurrency,
+    targetCurrency,
+    setTargetCurrency,
+    targetAmount,
+    currencyCodes,
   }
 
-  return (
-    <FxContext.Provider value={value}>
-      {props.children}
-    </FxContext.Provider>
-  )
+  return <FxContext.Provider value={value}>{props.children}</FxContext.Provider>
 }
 
 interface FxContextType {
@@ -88,5 +84,5 @@ export const FxContext = createContext<FxContextType>({
   targetCurrency: '',
   setSourceCurrency: () => {},
   setTargetCurrency: () => {},
-  currencyCodes: []
-});
+  currencyCodes: [],
+})

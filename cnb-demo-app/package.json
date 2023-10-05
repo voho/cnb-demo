@@ -22,6 +22,7 @@
     "tailwind:watch": "tailwindcss -i ./src/index.css -o ./src/index.tailwind.css --watch",
     "tailwind:build": "tailwindcss -i ./src/index.css -o ./src/index.tailwind.css",
     "build": "npm run tailwind:build && react-scripts build",
+    "prettier": "npx prettier . --write",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/superagent": "^4.1.19",
+    "prettier": "3.0.3",
     "tailwindcss": "^3.3.3"
   },
   "proxy": "https://www.cnb.cz"
