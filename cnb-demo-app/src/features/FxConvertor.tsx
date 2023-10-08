@@ -1,16 +1,17 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext } from 'react'
 import { FxContext } from '../context/FxContext'
+import { CurrencySelect } from '../components/CurrencySelect'
+import { NumberField } from '../components/NumberField'
 
 const Form: React.FC = () => {
   const {
-    loading,
     setSourceAmount,
     sourceCurrency,
     setSourceCurrency,
     targetCurrency,
     setTargetCurrency,
+    sourceAmount,
     targetAmount,
-    currencyCodes,
   } = useContext(FxContext)
 
   return (
@@ -20,29 +21,17 @@ const Form: React.FC = () => {
           <label>
             Enter Amount
             <br />
-            <input
-              type="text"
-              name="amount"
-              className="my-3 p-3 font-bold"
-              disabled={loading}
-              onChange={(e) => {
-                setSourceAmount(e.currentTarget.value)
-              }}
+            <NumberField
+              name="source_amount"
+              value={sourceAmount}
+              onChange={setSourceAmount}
             />
           </label>
-          <select
+          <CurrencySelect
             name="source_currency"
-            className="ml-3 my-3 font-bold text-xl"
-            disabled={loading}
             value={sourceCurrency}
-            onChange={(e) => {
-              setSourceCurrency(e.currentTarget.value)
-            }}
-          >
-            {currencyCodes.map((currency) => {
-              return <option value={currency}>{currency}</option>
-            })}
-          </select>
+            onChange={setSourceCurrency}
+          />
         </div>
         <div>
           Magic
@@ -53,28 +42,17 @@ const Form: React.FC = () => {
           <label>
             Conversion Result
             <br />
-            <input
-              type="text"
-              name="amount"
-              readOnly={true}
+            <NumberField
+              name="target_amount"
               value={targetAmount}
-              className="my-3 p-3 font-bold"
-              disabled={loading}
+              readOnly={true}
             />
           </label>
-          <select
+          <CurrencySelect
             name="target_currency"
-            className="ml-3 my-3 font-bold text-xl"
-            disabled={loading}
             value={targetCurrency}
-            onChange={(e) => {
-              setTargetCurrency(e.currentTarget.value)
-            }}
-          >
-            {currencyCodes.map((currency) => {
-              return <option value={currency}>{currency}</option>
-            })}
-          </select>
+            onChange={setTargetCurrency}
+          />
         </div>
       </div>
     </form>
@@ -85,7 +63,7 @@ export const FxConvertor: React.FC = () => {
   return (
     <div>
       <h1 className="text-2xl font-bold py-5">
-        Use our amazing AI-powered tool to convert currencies, free of charge!
+        Use our amazing tool to convert currencies, free of charge!
       </h1>
 
       <div className="p-3 bg-sky-200 my-5 rounded-lg shadow-md">

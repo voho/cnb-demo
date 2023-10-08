@@ -4,7 +4,8 @@ import superagent from 'superagent'
 const CNB_API_URL =
   'https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt'
 
-const CNB_API_PROXIED_URL = 'https://corsproxy.io/?' + encodeURIComponent(CNB_API_URL);
+const CNB_API_PROXIED_URL =
+  'https://corsproxy.io/?' + encodeURIComponent(CNB_API_URL)
 
 const parseCsvResponse = (responseText: string): CnbFxRateSheet => {
   const records = responseText.split('\n')
@@ -16,7 +17,6 @@ const parseCsvResponse = (responseText: string): CnbFxRateSheet => {
     if (cols.length !== 5) {
       return
     }
-    console.log(cols)
     rows.push({
       amount: parseInt(cols[2]),
       code: cols[3],

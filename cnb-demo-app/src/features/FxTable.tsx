@@ -1,11 +1,9 @@
 import React, { useContext } from 'react'
-import { Button } from '../components/Button'
 import { FxContext } from '../context/FxContext'
 import { Loader } from '../components/Loader'
 
 export const FxTable: React.FC = () => {
-  const { currentSheet, loading, error, setSourceCurrency, setTargetCurrency } =
-    useContext(FxContext)
+  const { currentSheet, loading, error } = useContext(FxContext)
   const rows = currentSheet?.rows ?? []
 
   return (
@@ -29,15 +27,12 @@ export const FxTable: React.FC = () => {
             <th className="border border-gray-200 bg-sky-50 text-left px-2 py-1">
               Exchange Rate
             </th>
-            <th className="border border-gray-200 bg-sky-50 text-left px-2 py-1">
-              Action
-            </th>
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => {
             return (
-              <tr>
+              <tr key={row.country}>
                 <td className="border border-gray-200 text-left px-2 py-1">
                   {row.country}
                 </td>
@@ -49,16 +44,6 @@ export const FxTable: React.FC = () => {
                 </td>
                 <td className="border border-gray-200 text-right font-mono px-2 py-1">
                   {row.rate}
-                </td>
-                <td className="border border-gray-200 text-left px-2 py-1">
-                  <Button
-                    onClick={() => setSourceCurrency(row.code)}
-                    label="Convert From"
-                  />
-                  <Button
-                    onClick={() => setTargetCurrency(row.code)}
-                    label="Convert To"
-                  />
                 </td>
               </tr>
             )
