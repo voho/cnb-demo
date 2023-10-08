@@ -1,4 +1,4 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react'
+import { createContext, useEffect, useMemo, useState } from 'react'
 import React from 'react'
 import { CnbFxRateSheet } from '../model/types'
 import { fetchCnbFxRateSheet } from '../service/FxService'
