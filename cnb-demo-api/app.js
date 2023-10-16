@@ -1,6 +1,7 @@
 const express = require("express");
 const { fetchCnbRates } = require("./fetcher");
 var cache = require("memory-cache");
+var cors = require("cors");
 
 const cacheKey = "rates";
 const cacheUpdateIntervalMs = 60 * 60 * 1000; // 1 h
@@ -23,6 +24,9 @@ setInterval(function () {
 
 // initial cache update
 fetchAndUpdateCache();
+
+// setup lenient CORS
+app.use(cors());
 
 // API handler
 app.get("/", (req, res) => {
