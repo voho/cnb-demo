@@ -2,19 +2,28 @@ import { createContext, useEffect, useMemo, useState } from 'react'
 import React from 'react'
 import { CnbFxRateSheet } from '../model/types'
 import { fetchCnbFxRateSheet } from '../service/FxService'
+import { useQuery } from '@tanstack/react-query'
 
 interface Props {
   children?: React.ReactNode
 }
 
+const API_URL =
+  'http://voho-cnb-demo-api-env.eu-north-1.elasticbeanstalk.com/'
+
 export const FxContextProvider: React.FC<Props> = (props) => {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(undefined)
-  const [currentSheet, setCurrentSheet] = useState<CnbFxRateSheet | undefined>()
-  const [sourceAmount, setSourceAmount] = useState('')
+  const { isLoading: loading, error, data: currentSheet } = useQuery<CnbFxRateSheet>({
+    queryKey: ['cnb-data'],
+    queryFn: () =>
+      fetch(API_URL).then(
+        (res) => res.json(),
+      ),
+  })
+
+  const [sourceAmount, setSourceAmount] = useState('1')
   const [targetAmount, setTargetAmount] = useState('')
-  const [sourceCurrency, setSourceCurrency] = useState('')
-  const [targetCurrency, setTargetCurrency] = useState('')
+  const [sourceCurrency, setSourceCurrency] = useState('CZK')
+  const [targetCurrency, setTargetCurrency] = useState('CZK')
 
   const fxRate = useMemo(() => {
     if (sourceCurrency === targetCurrency) {
@@ -36,7 +45,6 @@ export const FxContextProvider: React.FC<Props> = (props) => {
     if (sourceRow.length !== 1 || targetRow.length !== 1) {
       return undefined
     }
-    console.log(sourceRow[0], targetRow[0])
     const sourceToCzk = sourceRow[0].rate / sourceRow[0].amount
     const targetToCzk = targetRow[0].rate / targetRow[0].amount
     return sourceToCzk * targetToCzk
@@ -45,19 +53,7 @@ export const FxContextProvider: React.FC<Props> = (props) => {
   useEffect(() => {
     // fetch the CNB rates and store them internally
 
-    setError(undefined)
-    setLoading(true)
-
     fetchCnbFxRateSheet()
-      .then((value) => {
-        setCurrentSheet(value)
-      })
-      .catch((error) => {
-        setError(error)
-      })
-      .finally(() => {
-        setLoading(false)
-      })
   }, [])
 
   useEffect(() => {
@@ -76,17 +72,6 @@ export const FxContextProvider: React.FC<Props> = (props) => {
       // just ignore
     }
   }, [sourceAmount, sourceCurrency, targetCurrency, currentSheet, fxRate])
-
-  useEffect(() => {
-    // initialize currencies
-
-    if (currentSheet && !sourceCurrency) {
-      setSourceCurrency('CZK')
-    }
-    if (currentSheet && !targetCurrency) {
-      setTargetCurrency('CZK')
-    }
-  }, [currentSheet, sourceCurrency, targetCurrency])
 
   const currencyCodes = useMemo(() => {
     // derive currency codes
